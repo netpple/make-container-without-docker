@@ -1,6 +1,6 @@
 # make-container-without-docker
 
-overlay network 싫습을 위한 vagrant 환경구성 방법을 설명합니다. 
+overlay network 실습을 위한 vagrant 환경구성 방법을 설명합니다. 
 
 ### 환경 구성
 
