@@ -13,7 +13,7 @@ $pre_install = <<-SCRIPT
   sudo apt-get -y install jq &&
   sudo apt-get -y install bridge-utils
   sudo apt-get -y install python-pip > /dev/null 2>&1 &&
-  pip install pyroute2
+  pip install pyroute2==0.5.18
 
   echo ">>>> install go <<<<<<"
   curl -O https://storage.googleapis.com/golang/go1.15.7.linux-amd64.tar.gz > /dev/null 2>&1 &&
