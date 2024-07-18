@@ -45,14 +45,16 @@ while True:
         try:
           logging.info("ifindex {}, ipaddr {}, mac_addr {}".format(ifindex,ipaddr,mac_addr))
           ipr.neigh('add', dst=ipaddr, lladdr=mac_addr, ifindex=ifindex, state=ndmsg.states['permanent'])
-        except NetlinkError as (code, message):
+        except NetlinkError as e:
+          code, message = e.args
           print(message)
 
     if m.get_attr("NDA_LLADDR") is not None:
       lladdr=m.get_attr("NDA_LLADDR")
       logging.info("L2Miss on {}: Who has MAC: {}?".format(ifname,lladdr))
 
-      fdb_path = storage_fdb + "/" + lladdr
+      lladdr_enc = lladdr.replace(':', '-')
+      fdb_path = storage_fdb + "/" + lladdr_enc
       if os.path.exists(fdb_path):
         f = open(fdb_path, 'r')
         dst_host=f.readline().rstrip()
@@ -61,5 +63,6 @@ while True:
         try:
           logging.info("ifindex {}, lladdr {}, dst_host {}".format(ifindex,lladdr,dst_host))
           ipr.fdb('add', ifindex=ifindex, lladdr=lladdr, dst=dst_host)
-        except NetlinkError as (code, message):
+        except NetlinkError as e:
+          code, message = e.args
           print(message)

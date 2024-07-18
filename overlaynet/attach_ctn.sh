@@ -4,7 +4,7 @@ containerns=${1:-pinkns}
 ip=${2:-2}
 
 # set host ip and interface
-host_ipaddr=$(ifconfig eth1 | awk '{ print $2}' | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}")
+host_ipaddr=$(ifconfig ens160 | awk '{ print $2}' | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}")
 
 # set virtual lladdr & ipaddr
 mac=$ip
@@ -13,6 +13,12 @@ if [[ "$ip" -lt 10 ]];then
 fi
 lladdr="02:42:c0:a8:00:${mac}"
 ipaddr="11.11.11.${ip}"
+
+encode_filename() {
+  echo "$1" | sed 's/:/-/g'
+}
+
+lladdr_enc=$(encode_filename "$lladdr")
 
 # storage for arp/fdb
 storage_home="/vagrant/overlaynet/storage"
@@ -48,4 +54,4 @@ sudo ip netns exec $containerns ip link set dev eth0 up
 
 # write arp/fdb info to File
 echo $lladdr > "${storage_arp}/${ipaddr}"
-echo $host_ipaddr > "${storage_fdb}/${lladdr}"
+echo $host_ipaddr > "${storage_fdb}/${lladdr_enc}"
