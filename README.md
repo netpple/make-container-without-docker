@@ -19,7 +19,7 @@ $ git clone https://github.com/netpple/make-container-without-docker.git
 VM 생성
 ```bash
 $ cd make-container-without-docker
-$ git checkout overlay-nw
+$ git checkout overlay-nw-vmware_fusion
 $ vagrant up
 ```
 
